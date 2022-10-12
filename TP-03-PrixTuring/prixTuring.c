@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+//#include "turingWinners.txt"
 
 /* This function scans a line of text (until \n) and returns a char* that contains all characters on the line (up to 255) excluding \n.
 It also ensures the \0 termination.
@@ -54,6 +55,13 @@ int main(void)
 
 	int nbGagnants = scanLineAsInt();
 	printf("nbGagnants = %i\n",nbGagnants);
+
+	int AnneeGagnants = scanLineAsInt();
+	printf("AnneeGagnants = %i\n",AnneeGagnants);
+
+	char* NomGagnants = scanLine();
+	printf("NomGagnants = %s\n",NomGagnants);
+	free(NomGagnants);
 
 	return EXIT_SUCCESS;
 }
