@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include "Matrices.h"
+#include <stdio.h>
 #define SIZE 5
 
 
