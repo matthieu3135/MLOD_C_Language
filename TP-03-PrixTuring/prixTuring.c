@@ -56,12 +56,18 @@ int main(void)
 	int nbGagnants = scanLineAsInt();
 	printf("nbGagnants = %i\n",nbGagnants);
 
-	int AnneeGagnants = scanLineAsInt();
-	printf("AnneeGagnants = %i\n",AnneeGagnants);
+	for(int i = 0; i<nbGagnants; i++){
+		
+		int AnneeGagnants = scanLineAsInt();
+		printf("AnneeGagnants = %i\n",AnneeGagnants);
 
-	char* NomGagnants = scanLine();
-	printf("NomGagnants = %s\n",NomGagnants);
-	free(NomGagnants);
+		char* NomGagnants = scanLine();
+		printf("NomGagnants = %s\n",NomGagnants);
+		free(NomGagnants);
 
+		char* TitreGagnants = scanLine();
+		printf("TitreGagnants = %s\n",TitreGagnants);
+		free(TitreGagnants);
+	}
 	return EXIT_SUCCESS;
 }
