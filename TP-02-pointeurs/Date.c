@@ -9,11 +9,11 @@ void initialiseDate(Date* d){
     printf("\n Which day? ");
     scanf("%d", &(d->Day));
     printf("\n Which month? ");
-    scanf("%s", M);
+    scanf("%s", (*d).Month);
     printf("\n Which year? ");
     scanf("%d", &d->Year);
     //d->Day = D;
-    d->Month = M;
+    
     //d->Year = Y;
     //printf("\n %d %d %d\n", D, M, Y);
     printf("\n %d %d %d\n", d->Day, d->Month, d->Year);
