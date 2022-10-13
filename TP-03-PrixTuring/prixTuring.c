@@ -49,6 +49,31 @@ int scanLineAsInt() {
 	return buf;
 }
 
+typedef struct {
+	int Annee;
+	char *Nom;
+	char *Titre;
+}Gagnant;
+
+//on veut le tableau de tous les gagnants
+typedef struct{
+	Gagnant *gagnant;  //un tableau de gagnant
+}tousGagnants;
+
+
+Gagnant *readWinners(){
+	//on ne connait pas encore la taille du tableau donc il faut utiliser un malloc
+
+	Gagnant->Annee =  scanLineAsInt();
+	Gagnant->Nom = 
+}
+
+int printWinners(){
+
+
+
+	return 0;
+}
 
 int main(void)
 {
