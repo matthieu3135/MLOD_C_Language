@@ -50,22 +50,30 @@ int scanLineAsInt() {
 }
 
 typedef struct {
-	int Annee;
-	char *Nom;
-	char *Titre;
-}Gagnant;
+	int Year;
+	char *Name;
+	char *Title;
+}Winner;
 
 //on veut le tableau de tous les gagnants
 typedef struct{
-	Gagnant *gagnant;  //un tableau de gagnant
-}tousGagnants;
+	Winner *winner;  	//un tableau de gagnant
+	int size;  			//taille du tableau
+}WinnerTab;
 
 
-Gagnant *readWinners(){
+WinnerTab *readWinners(){
 	//on ne connait pas encore la taille du tableau donc il faut utiliser un malloc
+	WinnerTab *TabOfWinners = malloc(sizeof(WinnerTab)); 		//taille du tableau alouée dynamiquement								#Allocation mémoire
+	WinnerTab->size  = scanLineAsInt();							//taille du tableau sera égale au nombre de gagnants (50 ici)			#Allocation de tailles de valeures	
+	//WinnerTab->winner = malloc(Winnernumber*sizeof(winner)); 	//on multiplie 50 fois le tableau qui contient annee, nom et titre
 
-	Gagnant->Annee =  scanLineAsInt();
-	Gagnant->Nom = 
+	for(int i = 0; i<Winnernumber; i++){
+		WinnerTab->TabOfWinners.Year =  scanLineAsInt();		//on met un "." car Year est un int
+		WinnerTab->TabOfWinners->Name = scanLine();				//on met un "->" car Name est un char*
+		WinnerTab->TabOfWinners->Title = scanLine();			//on met un "->" car Title est un char*
+	}
+	return TabOfWinners;
 }
 
 int printWinners(){
