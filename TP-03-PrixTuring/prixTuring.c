@@ -91,13 +91,16 @@ int printWinners(){
 
 		printf("TitreGagnants = %s\n", TabOfWinners->winner[i].Title);
 
+		
 	}
+	free(TabOfWinners);
 	return 0;
 }
 
 int main(void)
 {
 	printWinners();
+	
 	
 	return EXIT_SUCCESS;
 }
