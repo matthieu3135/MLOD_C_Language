@@ -64,15 +64,16 @@ typedef struct{
 
 WinnerTab *readWinners(){
 	//on ne connait pas encore la taille du tableau donc il faut utiliser un malloc
-	WinnerTab *TabOfWinners = malloc(sizeof(WinnerTab)); 		//taille du tableau alouée dynamiquement								#Allocation mémoire
-	TabOfWinners->size  = scanLineAsInt();							//taille du tableau sera égale au nombre de gagnants (50 ici)			#Allocation de tailles de valeures	
-	//WinnerTab->winner = malloc(Winnernumber*sizeof(winner)); 	//on multiplie 50 fois le tableau qui contient annee, nom et titre
+	WinnerTab *TabOfWinners = malloc(sizeof(WinnerTab)); 				//taille du tableau alouée dynamiquement								#Allocation mémoire
+	TabOfWinners->size  = scanLineAsInt();								//taille du tableau sera égale au nombre de gagnants (50 ici)			#Allocation de tailles de valeures	
+	//WinnerTab->winner = malloc(Winnernumber*sizeof(winner)); 			//on multiplie 50 fois le tableau qui contient annee, nom et titre
+	TabOfWinners->winner = malloc(TabOfWinners->size * sizeof(Winner));	//on attribue la taille de 50*3 en octet	
 
 	for(int i = 0; i<TabOfWinners->size; i++){
 		//WinnerTab->TabOfWinners[i].Year =  scanLineAsInt();		//on met un "." car Year est un int
-		TabOfWinners->winner[i].Year =  scanLineAsInt();		//on met un "." car Year est un int
-		TabOfWinners->winner[i].Name = scanLine();				//on met un "->" car Name est un char*
-		TabOfWinners->winner[i].Title = scanLine();			//on met un "->" car Title est un char*
+		TabOfWinners->winner[i].Year =  scanLineAsInt();		
+		TabOfWinners->winner[i].Name = scanLine();				
+		TabOfWinners->winner[i].Title = scanLine();			
 	}
 	return TabOfWinners;
 }
@@ -91,8 +92,6 @@ int printWinners(){
 		printf("TitreGagnants = %s\n", TabOfWinners->winner[i].Title);
 
 	}
-
-
 	return 0;
 }
 
