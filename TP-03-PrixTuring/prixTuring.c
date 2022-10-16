@@ -50,49 +50,57 @@ int scanLineAsInt() {
 }
 
 typedef struct {
-	int Annee;
-	char *Nom;
-	char *Titre;
-}Gagnant;
+	int Year;
+	char *Name;
+	char *Title;
+}Winner;
 
 //on veut le tableau de tous les gagnants
 typedef struct{
-	Gagnant *gagnant;  //un tableau de gagnant
-}tousGagnants;
+	Winner *winner;  	//un tableau de gagnant
+	int size;  			//taille du tableau
+}WinnerTab;
 
 
-Gagnant *readWinners(){
+WinnerTab *readWinners(){
 	//on ne connait pas encore la taille du tableau donc il faut utiliser un malloc
+	WinnerTab *TabOfWinners = malloc(sizeof(WinnerTab)); 				//taille du tableau alouée dynamiquement								#Allocation mémoire
+	TabOfWinners->size  = scanLineAsInt();								//taille du tableau sera égale au nombre de gagnants (50 ici)			#Allocation de tailles de valeures	
+	//WinnerTab->winner = malloc(Winnernumber*sizeof(winner)); 			//on multiplie 50 fois le tableau qui contient annee, nom et titre
+	TabOfWinners->winner = malloc(TabOfWinners->size * sizeof(Winner));	//on attribue la taille de 50*3 en octet	
 
-	Gagnant->Annee =  scanLineAsInt();
-	Gagnant->Nom = 
+	for(int i = 0; i<TabOfWinners->size; i++){
+		//WinnerTab->TabOfWinners[i].Year =  scanLineAsInt();		//on met un "." car Year est un int
+		TabOfWinners->winner[i].Year =  scanLineAsInt();		
+		TabOfWinners->winner[i].Name = scanLine();				
+		TabOfWinners->winner[i].Title = scanLine();			
+	}
+	return TabOfWinners;
 }
 
 int printWinners(){
+	WinnerTab *TabOfWinners = readWinners();
+	printf("nbGagnants = %i\n",TabOfWinners->size);
 
+	for(int i = 0; i<TabOfWinners->size; i++){
+		
+		printf("AnneeGagnants = %i\n", TabOfWinners->winner[i].Year);
+		//printf("AnneeGagnants = %i\n",try[i].Year);
 
+		printf("NomGagnants = %s\n", TabOfWinners->winner[i].Name);
 
+		printf("TitreGagnants = %s\n", TabOfWinners->winner[i].Title);
+
+		
+	}
+	free(TabOfWinners);
 	return 0;
 }
 
 int main(void)
 {
-
-	int nbGagnants = scanLineAsInt();
-	printf("nbGagnants = %i\n",nbGagnants);
-
-	for(int i = 0; i<nbGagnants; i++){
-		
-		int AnneeGagnants = scanLineAsInt();
-		printf("AnneeGagnants = %i\n",AnneeGagnants);
-
-		char* NomGagnants = scanLine();
-		printf("NomGagnants = %s\n",NomGagnants);
-		free(NomGagnants);
-
-		char* TitreGagnants = scanLine();
-		printf("TitreGagnants = %s\n",TitreGagnants);
-		free(TitreGagnants);
-	}
+	printWinners();
+	
+	
 	return EXIT_SUCCESS;
 }
