@@ -36,14 +36,21 @@ void afficheElement(Element e) {
 // Attention la liste peut être vide !
 // version itérative
 void afficheListe_i(Liste l) {
-	for(int i = 0 ; i < taille(l); i++){
-		printf("%i\n", l[i].val);
+	if(estVide(l)){printf("la liste est vide");}
+	else{
+		for(int i = 0 ; i < taille(l); i++){
+			printf("%i\n", l[i].val);
+		}
 	}
 }
 
 // version recursive
 void afficheListe_r(Liste l) {
-	TODO;
+	if(estVide(l)){printf("la liste est vide");}
+	else{
+		printf("%i\n", (*l).val);
+		afficheListe_r(l->suiv);
+	}
 }
 
 void detruireElement(Element e) {}
