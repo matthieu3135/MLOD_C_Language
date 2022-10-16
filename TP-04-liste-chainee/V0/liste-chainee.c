@@ -4,6 +4,10 @@
 
 #define TODO NULL;
 
+
+int taille(int *l){
+	return sizeof(l)/sizeof(l[0]);
+}
 // retourne vrai si l est vide et faux sinon
 bool estVide(Liste l) {
 	return l == NULL;
@@ -16,6 +20,8 @@ Liste creer(Element v){
 
 // ajoute l'élément v en tete de la liste l
 Liste ajoutTete(Element v, Liste l) {
+	//l.tete = v; 
+
 	return TODO;
 }
 
@@ -30,7 +36,9 @@ void afficheElement(Element e) {
 // Attention la liste peut être vide !
 // version itérative
 void afficheListe_i(Liste l) {
-	TODO;
+	for(int i = 0 ; i < taille(l); i++){
+		printf("%i\n", l[i].val);
+	}
 }
 
 // version recursive
