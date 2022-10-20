@@ -15,14 +15,16 @@ bool estVide(Liste l) {
 
 // créer une liste d'un seul élément contenant la valeur v
 Liste creer(Element v){
-	return TODO;
+	Liste l[0].val = v;
+	l[0]->suiv = NULL;
+	return l;
 }
 
 // ajoute l'élément v en tete de la liste l
 Liste ajoutTete(Element v, Liste l) {
 	//l.tete = v; 
-
-	return TODO;
+	l[0].val = v;
+	return l;
 }
 
 
@@ -58,12 +60,12 @@ void detruireElement(Element e) {}
 // Détruit tous les éléments de la liste l
 // version itérative
 void detruire_i(Liste l) {
-	TODO;
+	l = NULL;
 }
 
 // version récursive
 void detruire_r(Liste l) {
-	TODO;
+	l = NULL;
 }
 
 // retourne la liste dans laquelle l'élément v a été ajouté en fin
@@ -85,12 +87,22 @@ bool equalsElement(Element e1, Element e2){
 // Retourne un pointeur sur l'élément de la liste l contenant la valeur v ou NULL
 // version itérative
 Liste cherche_i(Element v,Liste l) {
-	return TODO;
+	for(int i=0; i<taille(l); i++){
+		if(l[i].val == v){return i;}
+	}
+	return NULL;
 }
 
 // version récursive
 Liste cherche_r(Element v,Liste l) {
-	return TODO;
+	int i = 0;
+	while(l[i].val != l[taille(l)].val){
+		if(l[i].val == v){return i;}
+		else{cherche_r(v, l[i].suiv);}
+		i++;
+	}
+	if(l[i].val == v){return i;}
+	return NULL;
 }
 
 // Retourne la liste modifiée dans la laquelle le premier élément ayant la valeur v a été supprimé
