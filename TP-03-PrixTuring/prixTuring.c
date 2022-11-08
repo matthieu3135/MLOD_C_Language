@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+//#include "turingWinners.txt"
 
 /* This function scans a line of text (until \n) and returns a char* that contains all characters on the line (up to 255) excluding \n.
 It also ensures the \0 termination.
@@ -48,12 +49,58 @@ int scanLineAsInt() {
 	return buf;
 }
 
+typedef struct {
+	int Year;
+	char *Name;
+	char *Title;
+}Winner;
+
+//on veut le tableau de tous les gagnants
+typedef struct{
+	Winner *winner;  	//un tableau de gagnant
+	int size;  			//taille du tableau
+}WinnerTab;
+
+
+WinnerTab *readWinners(){
+	//on ne connait pas encore la taille du tableau donc il faut utiliser un malloc
+	WinnerTab *TabOfWinners = malloc(sizeof(WinnerTab)); 				//taille du tableau alouée dynamiquement								#Allocation mémoire
+	TabOfWinners->size  = scanLineAsInt();								//taille du tableau sera égale au nombre de gagnants (50 ici)			#Allocation de tailles de valeures	
+	//WinnerTab->winner = malloc(Winnernumber*sizeof(winner)); 			//on multiplie 50 fois le tableau qui contient annee, nom et titre
+	TabOfWinners->winner = malloc(TabOfWinners->size * sizeof(Winner));	//on attribue la taille de 50*3 en octet	
+
+	for(int i = 0; i<TabOfWinners->size; i++){
+		//WinnerTab->TabOfWinners[i].Year =  scanLineAsInt();		//on met un "." car Year est un int
+		TabOfWinners->winner[i].Year =  scanLineAsInt();		
+		TabOfWinners->winner[i].Name = scanLine();				
+		TabOfWinners->winner[i].Title = scanLine();			
+	}
+	return TabOfWinners;
+}
+
+int printWinners(){
+	WinnerTab *TabOfWinners = readWinners();
+	printf("nbGagnants = %i\n",TabOfWinners->size);
+
+	for(int i = 0; i<TabOfWinners->size; i++){
+		
+		printf("AnneeGagnants = %i\n", TabOfWinners->winner[i].Year);
+		//printf("AnneeGagnants = %i\n",try[i].Year);
+
+		printf("NomGagnants = %s\n", TabOfWinners->winner[i].Name);
+
+		printf("TitreGagnants = %s\n", TabOfWinners->winner[i].Title);
+
+		
+	}
+	free(TabOfWinners);
+	return 0;
+}
 
 int main(void)
 {
-
-	int nbGagnants = scanLineAsInt();
-	printf("nbGagnants = %i\n",nbGagnants);
-
+	printWinners();
+	
+	
 	return EXIT_SUCCESS;
 }
