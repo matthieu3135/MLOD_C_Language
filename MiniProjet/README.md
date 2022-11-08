@@ -13,11 +13,15 @@ Je souhaite modifier le jeu Arkanoid de la bibliohèque Raylib (https://www.rayl
 
 # Comment compiler
 
+gcc -Wall -std=c11 arkanoid.c /home/bot/MLOD-C/Raylib.git/src/libraylib.a -lGL -lm -lpthread -ldl -lrt -lX11 -o arkanoid
+
 # Comment exécuter
+
+./arkanoid
 
 # Comment utiliser le projet
 screenshot(s) du jeu
-règles, touches, ...
+Vous avez 5 vies. Le but est de détruire tous les carrés à l'aide d'une balle.
 
 # URL vidéo de démo
 
