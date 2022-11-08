@@ -134,7 +134,7 @@ Liste cherche_r(Element v,Liste l) {
 	if(estVide(l) || equalsElement(l->val,v)) return l;
 	else return cherche_r(v,l->suiv);
 }
-
+/*
 // Retourne la liste modifiée dans la laquelle le premier élément ayant la valeur v a été supprimé
 // ne fait rien si aucun élément possède cette valeur
 // version itérative
@@ -149,7 +149,7 @@ Liste retirePremier_i(Element v, Liste l) {
 		} 
 	//basé sur ajoutfin_i
 	Liste elem = creer(v);
-	Liste p = 1;
+	Liste p = l;
 
 	if(estVide(p)) return elem;
 
@@ -163,17 +163,17 @@ Liste retirePremier_i(Element v, Liste l) {
 	if(estVide(l->suiv));
 	return TODO;
 }
-
-
+*/
+/*
 // version recursive
 Liste retirePremier_r(Element v, Liste l) {
 	return TODO;
 }
-
-
+*/
+/*
 void afficheEnvers_r(Liste l) {
 	TODO;
 }
-
+*/
 
 
