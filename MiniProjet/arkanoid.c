@@ -71,7 +71,7 @@ static Brick brick[LINES_OF_BRICKS][BRICKS_PER_LINE] = { 0 };
 static Vector2 brickSize = { 0 };
 static int score = 0;
 static int hiScore = 0;
-static int tab[10];
+static int tab[] = {1, 32, 6, 43, 12, 15, 21, 14, 26, 38};
 
 //------------------------------------------------------------------------------------
 // Module Functions Declaration (local)
@@ -90,11 +90,10 @@ static void UpdateDrawFrame(void);  // Update and Draw (one frame)
 
 // Search if the element is present in the array (called tab)
 bool IsInside(int element, int tab[], int tabTaille){
-    bool i = false;
     for(int j = 0; j < tabTaille; j++){
         if(element == tab[j]) return true;
     }
-   return i;
+    return false;
 }
 
 
@@ -382,7 +381,7 @@ void DrawGame(void)
                         if(IsInside((i*10 + j), tab, 10)){DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, GREEN); 
                         }
                         //if((j*nbrAleatoire) % (i+2) == 0 ){DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, GREEN); 
-                        if ((i * j) == 20 || (i * j + j) == 15) {DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, YELLOW);
+                        else if ((i * j) == 20 || (i * j + j) == 15) {DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, YELLOW);
                         }else if ((i + j) % 2 == 0) {DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, GRAY);
                         }else {DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, DARKGRAY);
                         }
