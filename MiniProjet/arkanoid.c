@@ -96,6 +96,17 @@ bool IsInside(int element, int tab[], int tabTaille){
     return false;
 }
 
+// Fill with random integer a new array
+int FillArrayRandomly(size){
+    int* bonus = malloc(size*sizeof(int));
+    for(int i = 0; i<size; i++ ){
+        bonus[i] = rand() % 59;                         // We create a random integer between 1 and 59 (max(10*numberOfLine + numberOfBricks) = 59)
+        while(IsInside(bonus[i], bonus, size)){         // We check that the number is not already present
+            bonus[i] = rand() % 59;
+        }
+    }
+}
+
 
 
 //------------------------------------------------------------------------------------
@@ -135,7 +146,7 @@ int main(void)
     //--------------------------------------------------------------------------------------
 
     //InitWindow(screenWidth2, screenHeight2, "test");
-
+    int bonus[] = FillArrayRandomly(5);
     InitWindow(screenWidth, screenHeight, "classic game: arkanoid");
 
 
@@ -380,8 +391,9 @@ void DrawGame(void)
                     {
                         if(IsInside((i*10 + j), tab, 10)){DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, GREEN); 
                         }
+                        else if ((i * j) == 20 || (i * j + j) == 15) {DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, MAROON);
                         //if((j*nbrAleatoire) % (i+2) == 0 ){DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, GREEN); 
-                        else if ((i * j) == 20 || (i * j + j) == 15) {DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, YELLOW);
+                        }else if (IsInside((i * 10 + j), bonus, 5)) {DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, YELLOW);
                         }else if ((i + j) % 2 == 0) {DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, GRAY);
                         }else {DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, DARKGRAY);
                         }
@@ -392,9 +404,18 @@ void DrawGame(void)
             if (pause) DrawText("GAME PAUSED", screenWidth/2 - MeasureText("GAME PAUSED", 40)/2, screenHeight/2 - 40, 40, GRAY);
         }
         else {
-            DrawText("PRESS [ENTER] TO PLAY AGAIN", GetScreenWidth()/2 - MeasureText("PRESS [ENTER] TO PLAY AGAIN", 50)/2, GetScreenHeight()/2 - 50, 50, GRAY);
-            DrawText(TextFormat("YOUR SCORE: %04i", score), GetScreenWidth()/2 - MeasureText(TextFormat("YOUR SCORE: %04i", score), 30)/2, GetScreenHeight()/2 + 70, 30, GRAY);
-            DrawText(TextFormat("YOUR HIGHEST SCORE: %04i", hiScore), GetScreenWidth()/2 - MeasureText(TextFormat("YOUR HIGHEST SCORE: %04i", hiScore), 20)/2, GetScreenHeight()/2 + 140, 20, GRAY);
+            if (!gameOver){
+                DrawText("NEARLY !!! NEXT TIME WILL BE THE ONE", GetScreenWidth()/2 - MeasureText("NEARLY !!! NEXT TIME WILL BE THE ONE", 70)/2, GetScreenHeight()/2 - 100, 70, GRAY);
+                DrawText("PRESS [ENTER] TO PLAY AGAIN", GetScreenWidth()/2 - MeasureText("PRESS [ENTER] TO PLAY AGAIN", 50)/2, GetScreenHeight()/2 - 40, 50, GRAY);
+                DrawText(TextFormat("YOUR SCORE: %04i", score), GetScreenWidth()/2 - MeasureText(TextFormat("YOUR SCORE: %04i", score), 30)/2, GetScreenHeight()/2 + 70, 30, GRAY);
+                DrawText(TextFormat("YOUR HIGHEST SCORE: %04i", hiScore), GetScreenWidth()/2 - MeasureText(TextFormat("YOUR HIGHEST SCORE: %04i", hiScore), 20)/2, GetScreenHeight()/2 + 140, 20, GRAY);
+            }
+            else {
+                DrawText("WHAT A GAMER !!! THAT'S A WIN !!!", GetScreenWidth()/2 - MeasureText("WHAT A GAMER !!! THAT'S A WIN !!!", 70)/2, GetScreenHeight()/2 - 100, 70, GRAY);
+                DrawText("PRESS [ENTER] TO PLAY AGAIN", GetScreenWidth()/2 - MeasureText("PRESS [ENTER] TO PLAY AGAIN", 50)/2, GetScreenHeight()/2 - 40, 50, GRAY);
+                DrawText(TextFormat("YOUR SCORE: %04i", score), GetScreenWidth()/2 - MeasureText(TextFormat("YOUR SCORE: %04i", score), 30)/2, GetScreenHeight()/2 + 70, 30, GRAY);
+                DrawText(TextFormat("YOUR HIGHEST SCORE: %04i", hiScore), GetScreenWidth()/2 - MeasureText(TextFormat("YOUR HIGHEST SCORE: %04i", hiScore), 20)/2, GetScreenHeight()/2 + 140, 20, GRAY);
+            }
         }
 
     EndDrawing();
