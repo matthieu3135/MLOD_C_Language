@@ -148,9 +148,15 @@ int main(void)
         //----------------------------------------------------------------------------------
     
     BeginDrawing();
-        ClearBackground(LIGHTGRAY);
+        ClearBackground(RAYWHITE);
+        DrawText("YOU HAVE TO DESTROY ALL THE BRICKS TO WIN", GetScreenWidth()/2 - MeasureText("YOU HAVE TO DESTROY ALL THE BRICKS TO WIN", 25)/2, 50, 25, DARKGRAY);
+        DrawText("Red Bricks: Score divided by 2", 190, 130, 20, RED);
+        DrawText("Green Bricks: Score multiplied by 2", 190, 180, 20, GREEN);
+        DrawText("Beige Bricks: Increase the speed of Ball", 190, 230, 20, BEIGE);
+        DrawText("Gray Bricks: Score + 10", 190, 280, 20, GRAY);
+        DrawText("Use 'Space' to launch the ball, \nand move thanks to your arrows", GetScreenWidth()/2 - MeasureText("and move thanks to your arrows", 30)/2, 350, 30, DARKGRAY);
 
-        DrawText("Ceci explique les règles", 190, 200, 20, GRAY);
+        
 
     EndDrawing();
         //----------------------------------------------------------------------------------
