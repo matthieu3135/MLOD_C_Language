@@ -20,8 +20,9 @@ gcc -Wall -std=c11 arkanoid.c /home/bot/MLOD-C/Raylib.git/src/libraylib.a -lGL -
 ./arkanoid
 
 # Comment utiliser le projet
-screenshot(s) du jeu
+
 Vous avez 5 vies. Le but est de détruire tous les carrés à l'aide d'une balle.
+Il y a 2 fenêtres, une avec les explications pour jouer, et une avec le jeu.
 
 # URL vidéo de démo
 
