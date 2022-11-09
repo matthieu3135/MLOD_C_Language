@@ -15,15 +15,17 @@ bool estVide(Liste l);
 
 Liste creer(Element v);
 
+extern bool equalsElement(Element v1, Element v2);
+
 Liste ajoutTete(Element v, Liste l);
 
-void afficheElement(Element e);
+extern void afficheElement(Element e);
 
 // Le i pour iterative et le r pour recursif
 void afficheListe_i(Liste l);
 void afficheListe_r(Liste l);
 
-void detruireElement(Element e);
+extern void detruireElement(Element e);
 
 void detruire_i(Liste l);
 void detruire_r(Liste l);
