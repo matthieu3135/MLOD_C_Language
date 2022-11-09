@@ -12,13 +12,14 @@
 ********************************************************************************************/
 
 #include "raylib.h"
-//#include "FenetreAide.h"
+
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
 #include <stdbool.h>
+#include <string.h>
 
 #if defined(PLATFORM_WEB)
     #include <emscripten/emscripten.h>
@@ -30,6 +31,7 @@
 #define PLAYER_MAX_LIFE         5
 #define LINES_OF_BRICKS         5
 #define BRICKS_PER_LINE        20
+#define CASES_BONUS             5
 
 //----------------------------------------------------------------------------------
 // Types and Structures Definition
@@ -51,7 +53,7 @@ typedef struct Ball {
 typedef struct Brick {
     Vector2 position;
     bool active;
-    int bonus;
+    int bonus; //0: Score+10   1: Ball_Speed*1.5   2: Score*2   3: Score/2
 } Brick;
 
 //------------------------------------------------------------------------------------
@@ -72,7 +74,8 @@ static Brick brick[LINES_OF_BRICKS][BRICKS_PER_LINE] = { 0 };
 static Vector2 brickSize = { 0 };
 static int score = 0;
 static int hiScore = 0;
-//static int tab[] = {1, 32, 6, 43, 12, 15, 21, 14, 26, 38};
+static int tableauAleatoire[50];
+static int tableauBonus[CASES_BONUS];
 
 //------------------------------------------------------------------------------------
 // Module Functions Declaration (local)
@@ -90,25 +93,31 @@ static void UpdateDrawFrame(void);  // Update and Draw (one frame)
 //------------------------------------------------------------------------------------
 
 // Search if the element is present in the array (called tab)
-bool IsInside(int element, int tab[], int tabTaille){
-    for(int j = 0; j < tabTaille; j++){
-        if(element == tab[j]) return true;
+int IsInside(int element, int tab[], int tabTaille){
+    for(int i = 0; i<tabTaille; i++){
+        if(element == tab[i]) return 1;
     }
-    return false;
+    return 0;
 }
-/*
+
 // Fill with random integer a new array
-int FillArrayRandomly(size){
-    int* bonus = malloc(size*sizeof(int));
-    for(int i = 0; i<size; i++ ){
-        bonus[i] = rand() % 59;                         // We create a random integer between 1 and 59 (max(10*numberOfLine + numberOfBricks) = 59)
-        while(IsInside(bonus[i], bonus, size)){         // We check that the number is not already present
-            bonus[i] = rand() % 59;
-        }
+void FillArrayRandomly(){
+    
+    for(int i = 0; i<50; i++ ){
+        tableauAleatoire[i] = rand() % 59;     // We create a random integer between 1 and 59 (max(10*numberOfLine + numberOfBricks) = 59)
     }
-    return *bonus;
+
+    for(int j = 0; j<CASES_BONUS; j++){
+        int l = tableauAleatoire[rand() % 30];
+        int ran = rand() % 30;
+        while(IsInside(l, tableauBonus, j) == 1){
+            l = tableauAleatoire[ran];
+            ran = ran + 1;
+        }
+        tableauBonus[j] = l;
+    }
 }
-*/
+
 
 
 //------------------------------------------------------------------------------------
@@ -119,12 +128,12 @@ int main(void)
     //int tab[10] = {1, 32, 6, 43, 12, 15, 21, 14, 26, 38}; //we will use 10*numberOfLine + numberOfBricks
     // Initialization (Note windowTitle is unused on Android)
     //---------------------------------------------------------
-    
+    FillArrayRandomly();
     
     const int screenWidth2 = 800;
     const int screenHeight2 = 450;
 
-    InitWindow(screenWidth2, screenHeight2, "raylib [core] example - basic window");
+    InitWindow(screenWidth2, screenHeight2, "Explanations");
 
     SetTargetFPS(60);  
       // Main game loop
@@ -139,9 +148,9 @@ int main(void)
         //----------------------------------------------------------------------------------
     
     BeginDrawing();
-        ClearBackground(RAYWHITE);
+        ClearBackground(LIGHTGRAY);
 
-        DrawText("Ceci explique les règles", 190, 200, 20, LIGHTGRAY);
+        DrawText("Ceci explique les règles", 190, 200, 20, GRAY);
 
     EndDrawing();
         //----------------------------------------------------------------------------------
@@ -210,8 +219,13 @@ void InitGame(void)
     // Initialize bricks
     int initialDownPosition = 50;
     
-    //int *tableauBonus = FillArrayRandomly(5);    // array used for bonus
-    int tableauBonus[] = {1, 15, 20, 32, 41};  
+
+    //int tableauBonus1 = tableauBonus;    // array used for bonus
+    //tableauBonus = FillArrayRandomly(tableauBonus);
+    //int tableauBonus[] = {1, 15, 20, 32, 41}; 
+    //FillArrayRandomly();
+    //int tableauBonus2 = tableauBonus;    // array used for bonus
+
     for (int i = 0; i < LINES_OF_BRICKS; i++)
     {
         for (int j = 0; j < BRICKS_PER_LINE; j++)
@@ -402,14 +416,24 @@ void DrawGame(void)
                 {
                     if (brick[i][j].active)
                     {
-                        //if(IsInside((i*10 + j), tab, 10)){DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, GREEN); 
-                        //}
-                        if((i * j) == 20 || (i * j + j) == 15) {DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, MAROON);
+                        if(((i==3) && (j==4)) || ((i==2) && (j==14))){
+                            DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, DARKGREEN); 
+                        }
+                        else if((i==2 && j==6) || (i==3 && j==16)){
+                            DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, MAROON); 
+                        }
+                        else if(IsInside((i*10 + j), tableauBonus, 5)){
+                            DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, BEIGE); 
+                        }
+                        //else if((i * j) == 20 || (i * j + j) == 15) {DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, YELLOW);
                         //if((j*nbrAleatoire) % (i+2) == 0 ){DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, GREEN); 
                         /*}else if (IsInside((i * 10 + j), bonus, 5)) {DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, YELLOW);
-                        */}
-                        else if ((i + j) % 2 == 0) {DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, GRAY);
-                        }else {DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, DARKGRAY);
+                        */
+                        //}
+                        else if ((i + j) % 2 == 0) {
+                            DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, GRAY);
+                        }else {
+                            DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, DARKGRAY);
                         }
                     }
                 }
@@ -418,14 +442,14 @@ void DrawGame(void)
             if (pause) DrawText("GAME PAUSED", screenWidth/2 - MeasureText("GAME PAUSED", 40)/2, screenHeight/2 - 40, 40, GRAY);
         }
         else {
-            if (!gameOver){
-                DrawText("NEARLY !!! NEXT TIME WILL BE THE ONE", GetScreenWidth()/2 - MeasureText("NEARLY !!! NEXT TIME WILL BE THE ONE", 70)/2, GetScreenHeight()/2 - 100, 70, GRAY);
+            if (gameOver){
+                DrawText("NEARLY !!! NEXT TIME WILL BE THE ONE", GetScreenWidth()/2 - MeasureText("NEARLY !!! NEXT TIME WILL BE THE ONE", 60)/2, GetScreenHeight()/2 - 200, 60, DARKGRAY);
                 DrawText("PRESS [ENTER] TO PLAY AGAIN", GetScreenWidth()/2 - MeasureText("PRESS [ENTER] TO PLAY AGAIN", 50)/2, GetScreenHeight()/2 - 40, 50, GRAY);
                 DrawText(TextFormat("YOUR SCORE: %04i", score), GetScreenWidth()/2 - MeasureText(TextFormat("YOUR SCORE: %04i", score), 30)/2, GetScreenHeight()/2 + 70, 30, GRAY);
                 DrawText(TextFormat("YOUR HIGHEST SCORE: %04i", hiScore), GetScreenWidth()/2 - MeasureText(TextFormat("YOUR HIGHEST SCORE: %04i", hiScore), 20)/2, GetScreenHeight()/2 + 140, 20, GRAY);
             }
             else {
-                DrawText("WHAT A GAMER !!! THAT'S A WIN !!!", GetScreenWidth()/2 - MeasureText("WHAT A GAMER !!! THAT'S A WIN !!!", 70)/2, GetScreenHeight()/2 - 100, 70, GRAY);
+                DrawText("WHAT A GAMER !!! THAT'S A WIN !!!", GetScreenWidth()/2 - MeasureText("WHAT A GAMER !!! THAT'S A WIN !!!", 70)/2, GetScreenHeight()/2 - 200, 60, DARKGRAY);
                 DrawText("PRESS [ENTER] TO PLAY AGAIN", GetScreenWidth()/2 - MeasureText("PRESS [ENTER] TO PLAY AGAIN", 50)/2, GetScreenHeight()/2 - 40, 50, GRAY);
                 DrawText(TextFormat("YOUR SCORE: %04i", score), GetScreenWidth()/2 - MeasureText(TextFormat("YOUR SCORE: %04i", score), 30)/2, GetScreenHeight()/2 + 70, 30, GRAY);
                 DrawText(TextFormat("YOUR HIGHEST SCORE: %04i", hiScore), GetScreenWidth()/2 - MeasureText(TextFormat("YOUR HIGHEST SCORE: %04i", hiScore), 20)/2, GetScreenHeight()/2 + 140, 20, GRAY);
