@@ -51,6 +51,7 @@ typedef struct Ball {
 typedef struct Brick {
     Vector2 position;
     bool active;
+    int bonus;
 } Brick;
 
 //------------------------------------------------------------------------------------
@@ -71,7 +72,7 @@ static Brick brick[LINES_OF_BRICKS][BRICKS_PER_LINE] = { 0 };
 static Vector2 brickSize = { 0 };
 static int score = 0;
 static int hiScore = 0;
-static int tab[] = {1, 32, 6, 43, 12, 15, 21, 14, 26, 38};
+//static int tab[] = {1, 32, 6, 43, 12, 15, 21, 14, 26, 38};
 
 //------------------------------------------------------------------------------------
 // Module Functions Declaration (local)
@@ -95,7 +96,7 @@ bool IsInside(int element, int tab[], int tabTaille){
     }
     return false;
 }
-
+/*
 // Fill with random integer a new array
 int FillArrayRandomly(size){
     int* bonus = malloc(size*sizeof(int));
@@ -105,8 +106,9 @@ int FillArrayRandomly(size){
             bonus[i] = rand() % 59;
         }
     }
+    return *bonus;
 }
-
+*/
 
 
 //------------------------------------------------------------------------------------
@@ -117,6 +119,8 @@ int main(void)
     //int tab[10] = {1, 32, 6, 43, 12, 15, 21, 14, 26, 38}; //we will use 10*numberOfLine + numberOfBricks
     // Initialization (Note windowTitle is unused on Android)
     //---------------------------------------------------------
+    
+    
     const int screenWidth2 = 800;
     const int screenHeight2 = 450;
 
@@ -124,18 +128,20 @@ int main(void)
 
     SetTargetFPS(60);  
       // Main game loop
-    /*while (!WindowShouldClose())    // Detect window close button or ESC key
-    {*/// Update
+      
+    //while (!WindowShouldClose())    // Detect window close button or ESC key
+    //{// Update
         //----------------------------------------------------------------------------------
         // TODO: Update your variables here
         //----------------------------------------------------------------------------------
 
         // Draw
         //----------------------------------------------------------------------------------
+    
     BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+        DrawText("Ceci explique les règles", 190, 200, 20, LIGHTGRAY);
 
     EndDrawing();
         //----------------------------------------------------------------------------------
@@ -146,9 +152,10 @@ int main(void)
     //--------------------------------------------------------------------------------------
 
     //InitWindow(screenWidth2, screenHeight2, "test");
-    int bonus[] = FillArrayRandomly(5);
-    InitWindow(screenWidth, screenHeight, "classic game: arkanoid");
+    //int bonus[] = FillArrayRandomly(5);
 
+    
+    InitWindow(screenWidth, screenHeight, "classic game: arkanoid");
 
     InitGame();
     
@@ -202,16 +209,22 @@ void InitGame(void)
 
     // Initialize bricks
     int initialDownPosition = 50;
-
+    
+    //int *tableauBonus = FillArrayRandomly(5);    // array used for bonus
+    int tableauBonus[] = {1, 15, 20, 32, 41};  
     for (int i = 0; i < LINES_OF_BRICKS; i++)
     {
         for (int j = 0; j < BRICKS_PER_LINE; j++)
         {
             brick[i][j].position = (Vector2){ j*brickSize.x + brickSize.x/2, i*brickSize.y + initialDownPosition };
+            if(IsInside((i * 10 + j), tableauBonus, 5)){ 
+                brick[i][j].bonus = 1;
+            }
             brick[i][j].active = true;
         }
     }
     score = 0;
+    //int bonus[] = FillArrayRandomly(5);
     //tab = {1, 32, 6, 43, 12, 15, 21, 14, 26, 38}; //we will use 10*numberOfLine + numberOfBricks
 
 }
@@ -389,12 +402,13 @@ void DrawGame(void)
                 {
                     if (brick[i][j].active)
                     {
-                        if(IsInside((i*10 + j), tab, 10)){DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, GREEN); 
-                        }
-                        else if ((i * j) == 20 || (i * j + j) == 15) {DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, MAROON);
+                        //if(IsInside((i*10 + j), tab, 10)){DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, GREEN); 
+                        //}
+                        if((i * j) == 20 || (i * j + j) == 15) {DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, MAROON);
                         //if((j*nbrAleatoire) % (i+2) == 0 ){DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, GREEN); 
-                        }else if (IsInside((i * 10 + j), bonus, 5)) {DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, YELLOW);
-                        }else if ((i + j) % 2 == 0) {DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, GRAY);
+                        /*}else if (IsInside((i * 10 + j), bonus, 5)) {DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, YELLOW);
+                        */}
+                        else if ((i + j) % 2 == 0) {DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, GRAY);
                         }else {DrawRectangle(brick[i][j].position.x - brickSize.x/2, brick[i][j].position.y - brickSize.y/2, brickSize.x, brickSize.y, DARKGRAY);
                         }
                     }
