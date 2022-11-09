@@ -1,5 +1,10 @@
 #include "../V1/linkedList.h"
+#include <stdbool.h>
 
+
+// I keep this lines in case I need it
+
+/*
 typedef void* Element;
 
 struct cellule_s {
@@ -10,7 +15,9 @@ struct cellule_s {
 typedef struct cellule_s Cellule;
 
 typedef Cellule* Liste;
+*/ 
 
+// Music struct
 struct Music{
     char Name[];
     char Artiste[];
@@ -20,3 +27,8 @@ struct Music{
     int TrackNumber;
     int Year;
 };
+
+// Definition of functions
+extern bool equalsElement(Element e1, Element e2);
+extern void detruireElement(Element e);
+extern void afficheElement(Element e);
