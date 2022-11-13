@@ -18,15 +18,15 @@ typedef Cellule* Liste;
 */ 
 
 // Music struct
-struct Music{
-    char Name[];
-    char Artiste[];
-    char Album[];
-    char Genre[];
+typedef struct{         // Ne connaissant pas la taille de mes tableaux je vais utiliser des pointeurs
+    char *name;
+    char *artiste;
+    char *album;
+    char *genre;
     int DiscNumber;
     int TrackNumber;
     int Year;
-};
+}Music;
 
 // Definition of functions
 extern bool equalsElement(Element e1, Element e2);
