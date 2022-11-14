@@ -13,7 +13,7 @@ Je souhaite modifier le jeu Arkanoid de la bibliohèque Raylib (https://www.rayl
 
 # Comment compiler
 
-gcc -Wall -std=c11 arkanoid.c /home/bot/MLOD-C/Raylib.git/src/libraylib.a -lGL -lm -lpthread -ldl -lrt -lX11 -o arkanoid
+gcc -Wall -std=c11 arkanoid.c /home/bot/Raylib.git/src/libraylib.a -lGL -lm -lpthread -ldl -lrt -lX11 -o arkanoid
 
 # Comment exécuter
 
